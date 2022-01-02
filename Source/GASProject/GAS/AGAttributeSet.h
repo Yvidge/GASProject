@@ -21,6 +21,8 @@ class GASPROJECT_API UAGAttributeSet : public UAttributeSet
 
 public:
 
+	UAGAttributeSet();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
 	FGameplayAttributeData Health;
 

@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
+#include "GAS/AGAttributeSet.h"
 #include "GASProjectCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -35,7 +36,7 @@ public:
 	UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AbilitySystem, meta = (AllowPrivateAccess = "true"))
-	class UAGAttributeSet* BaseAttributeSet;
+	UAGAttributeSet* BaseAttributeSet;
 
 protected:
 
