@@ -38,6 +38,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AbilitySystem, meta = (AllowPrivateAccess = "true"))
 	UAGAttributeSet* BaseAttributeSet;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AbilitySystem)
+	TSubclassOf<class UGameplayAbility> StartupAbility;
+
 protected:
 
 	/** Resets HMD orientation in VR. */
@@ -66,6 +69,8 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+	virtual void BeginPlay() override;
 
 protected:
 	// APawn interface

@@ -102,6 +102,20 @@ void AGASProjectCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector L
 		StopJumping();
 }
 
+void AGASProjectCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (AbilitySystemComponent)
+	{
+		if (StartupAbility)
+		{
+			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility.GetDefaultObject(), 1, 0));
+			AbilitySystemComponent->InitAbilityActorInfo(this, this);
+		}
+	}
+}
+
 void AGASProjectCharacter::TurnAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
