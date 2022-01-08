@@ -39,12 +39,9 @@ public:
 	UAGAttributeSet* BaseAttributeSet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AbilitySystem)
-	TSubclassOf<class UGameplayAbility> StartupAbility;
+	TArray<TSubclassOf<class UGameplayAbility>> StartupAbilities;
 
 protected:
-
-	/** Resets HMD orientation in VR. */
-	void OnResetVR();
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
@@ -64,18 +61,16 @@ protected:
 	 */
 	void LookUpAtRate(float Rate);
 
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
-
 	virtual void BeginPlay() override;
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
+
+	virtual void HealthChanged(const FOnAttributeChangeData& Data);
+
+	virtual void MoveSpeedChanged(const FOnAttributeChangeData& Data);
 
 public:
 	/** Returns CameraBoom subobject **/

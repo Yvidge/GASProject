@@ -72,35 +72,17 @@ void AGASProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AGASProjectCharacter::LookUpAtRate);
 
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AGASProjectCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AGASProjectCharacter::TouchStopped);
-
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGASProjectCharacter::OnResetVR);
 }
 
-
-void AGASProjectCharacter::OnResetVR()
+void AGASProjectCharacter::HealthChanged(const FOnAttributeChangeData& Data)
 {
-	// If GASProject is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in GASProject.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
-void AGASProjectCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
+void AGASProjectCharacter::MoveSpeedChanged(const FOnAttributeChangeData& Data)
 {
-		Jump();
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = Data.NewValue;
 }
 
-void AGASProjectCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		StopJumping();
-}
 
 void AGASProjectCharacter::BeginPlay()
 {
@@ -108,12 +90,20 @@ void AGASProjectCharacter::BeginPlay()
 
 	if (AbilitySystemComponent)
 	{
-		if (StartupAbility)
+		for (auto Ability : StartupAbilities)
 		{
-			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility.GetDefaultObject(), 1, 0));
-			AbilitySystemComponent->InitAbilityActorInfo(this, this);
+			if (Ability)
+			{
+				AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(Ability.GetDefaultObject(), 1, 0));
+				AbilitySystemComponent->InitAbilityActorInfo(this, this);
+			}
 		}
 	}
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetHealthAttribute()).AddUObject(this, &AGASProjectCharacter::HealthChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetMoveSpeedAttribute()).AddUObject(this, &AGASProjectCharacter::MoveSpeedChanged);
+
+
 }
 
 void AGASProjectCharacter::TurnAtRate(float Rate)
