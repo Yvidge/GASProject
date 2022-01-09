@@ -3,10 +3,12 @@
 #include "GASProjectCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Characters/AGCharacterMovementComponent.h"
 //////////////////////////////////////////////////////////////////////////
 // AGASProjectCharacter
 
-AGASProjectCharacter::AGASProjectCharacter()
+AGASProjectCharacter::AGASProjectCharacter(const class FObjectInitializer& ObjectInitializer):
+	Super(ObjectInitializer.SetDefaultSubobjectClass<UAGCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -30,11 +32,23 @@ AGASProjectCharacter::AGASProjectCharacter()
 
 void AGASProjectCharacter::HealthChanged(const FOnAttributeChangeData& Data)
 {
+	OnHealtChanged(Data.OldValue, Data.NewValue);
+
+	if(Data.NewValue <= 0)
+	{
+		OnKilled();
+		NativeOnKilled();
+	}
 }
 
 void AGASProjectCharacter::MoveSpeedChanged(const FOnAttributeChangeData& Data)
 {
 	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = Data.NewValue;
+}
+
+void AGASProjectCharacter::NativeOnKilled()
+{
+	Destroy();
 }
 
 

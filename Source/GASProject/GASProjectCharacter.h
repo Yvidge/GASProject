@@ -16,8 +16,8 @@ class AGASProjectCharacter : public ACharacter, public IAbilitySystemInterface
 
 	
 public:
-	AGASProjectCharacter();
-
+	AGASProjectCharacter(const class FObjectInitializer& ObjectInitializer);
+	//AGASProjectCharacter();
 	UPROPERTY(BlueprintReadOnly, Category = AbilitySystem)
 	UAbilitySystemComponent* AbilitySystemComponent;
 
@@ -31,16 +31,19 @@ protected:
 
 	virtual void BeginPlay() override;
 
-protected:
-	// APawn interface
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	// End of APawn interface
-
 	virtual void HealthChanged(const FOnAttributeChangeData& Data);
 
 	virtual void MoveSpeedChanged(const FOnAttributeChangeData& Data);
 
 public:
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnHealtChanged(float OldValue, float NewValue);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnKilled();
+
+	void NativeOnKilled();
 
 	FORCEINLINE class UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
 };
