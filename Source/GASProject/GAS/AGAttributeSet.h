@@ -21,6 +21,8 @@ class GASPROJECT_API UAGAttributeSet : public UAttributeSet
 
 public:
 
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+
 	UAGAttributeSet();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
