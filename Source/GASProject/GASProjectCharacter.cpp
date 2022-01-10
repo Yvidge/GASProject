@@ -32,7 +32,7 @@ AGASProjectCharacter::AGASProjectCharacter(const class FObjectInitializer& Objec
 
 void AGASProjectCharacter::HealthChanged(const FOnAttributeChangeData& Data)
 {
-	OnHealtChanged(Data.OldValue, Data.NewValue);
+	OnHealthChanged(Data.OldValue, Data.NewValue);
 
 	if(Data.NewValue <= 0)
 	{
@@ -44,6 +44,21 @@ void AGASProjectCharacter::HealthChanged(const FOnAttributeChangeData& Data)
 void AGASProjectCharacter::MoveSpeedChanged(const FOnAttributeChangeData& Data)
 {
 	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = Data.NewValue;
+}
+
+float AGASProjectCharacter::GetHealth() const
+{
+	return BaseAttributeSet->GetHealth();
+}
+
+float AGASProjectCharacter::GetMaxHealth() const
+{
+	return BaseAttributeSet->GetMaxHealth();
+}
+
+float AGASProjectCharacter::GetMoveSpeed() const
+{
+	return BaseAttributeSet->GetMoveSpeed();
 }
 
 void AGASProjectCharacter::NativeOnKilled()

@@ -9,6 +9,17 @@
 #include "GAS/AGAttributeSet.h"
 #include "GASProjectCharacter.generated.h"
 
+UENUM(BlueprintType)
+enum ECharacterRoleType
+{
+	None UMETA(DisplayName = "None"),
+	Player UMETA(DisplayName = "Player"),
+	Frontline UMETA(DisplayName = "Frontline"),
+	Backline UMETA(DisplayName = "Backline"),
+	Support UMETA(DisplayName = "Support")
+};
+
+
 UCLASS(config=Game)
 class AGASProjectCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -27,6 +38,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AbilitySystem)
 	TArray<TSubclassOf<class UGameplayAbility>> StartupAbilities;
 
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	TEnumAsByte<ECharacterRoleType> CharacterRole;
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -37,8 +51,17 @@ protected:
 
 public:
 
+	UFUNCTION(BlueprintCallable, Category = AbilitySystem)
+	float GetHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = AbilitySystem)
+	float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = AbilitySystem)
+	float GetMoveSpeed() const;
+
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnHealtChanged(float OldValue, float NewValue);
+	void OnHealthChanged(float OldValue, float NewValue);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnKilled();
