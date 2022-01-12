@@ -16,6 +16,9 @@ class GASPROJECT_API UAGGameplayAbilityBase : public UGameplayAbility
 
 public:
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Damage")
+	float BaseDamage;
+
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Cooldown")
 	FScalableFloat CooldownDuration;
 
