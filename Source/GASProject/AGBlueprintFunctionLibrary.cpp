@@ -40,7 +40,7 @@ AGASProjectCharacter* UAGBlueprintFunctionLibrary::FindTargetForHealing(const AA
 			}
 			int CalculatedPoints = 100 * RoleModifier * (1 - FriendlyTarget->GetHealth()/FriendlyTarget->GetMaxHealth());
 			PointsMap.Add(FriendlyTarget, CalculatedPoints);
-			GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Orange, FString::Printf(TEXT("%s: %i"), ToCStr(FriendlyTarget->GetHumanReadableName()), CalculatedPoints));
+			//GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Orange, FString::Printf(TEXT("%s: %i"), ToCStr(FriendlyTarget->GetHumanReadableName()), CalculatedPoints));
 		}
 	}
 	PointsMap.ValueSort([](int A, int B) { return A > B; });
