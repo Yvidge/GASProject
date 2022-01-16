@@ -63,7 +63,7 @@ float AGASProjectCharacter::GetMoveSpeed() const
 
 void AGASProjectCharacter::NativeOnKilled()
 {
-	Destroy();
+	//Destroy();
 }
 
 
@@ -73,6 +73,9 @@ void AGASProjectCharacter::BeginPlay()
 
 	if (AbilitySystemComponent)
 	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetHealthAttribute()).AddUObject(this, &AGASProjectCharacter::HealthChanged);
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetMoveSpeedAttribute()).AddUObject(this, &AGASProjectCharacter::MoveSpeedChanged);
+
 		for (auto Ability : StartupAbilities)
 		{
 			if (Ability)
@@ -81,10 +84,20 @@ void AGASProjectCharacter::BeginPlay()
 				AbilitySystemComponent->InitAbilityActorInfo(this, this);
 			}
 		}
+
+		if (StatInitializer) {
+			FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+			EffectContext.AddSourceObject(this);
+
+			FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(StatInitializer, 1.0f, EffectContext);
+			if (NewHandle.IsValid())
+			{
+				FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent);
+			}
+		}
 	}
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetHealthAttribute()).AddUObject(this, &AGASProjectCharacter::HealthChanged);
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetMoveSpeedAttribute()).AddUObject(this, &AGASProjectCharacter::MoveSpeedChanged);
+	
 
 
 }

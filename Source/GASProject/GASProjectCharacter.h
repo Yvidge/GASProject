@@ -41,6 +41,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TEnumAsByte<ECharacterRoleType> CharacterRole;
 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = AbilitySystem)
+	TSubclassOf<UGameplayEffect> StatInitializer;
+
 protected:
 
 	virtual void BeginPlay() override;
