@@ -33,12 +33,17 @@ AGASProjectCharacter::AGASProjectCharacter(const class FObjectInitializer& Objec
 void AGASProjectCharacter::HealthChanged(const FOnAttributeChangeData& Data)
 {
 	OnHealthChanged(Data.OldValue, Data.NewValue);
-
+	OnHealthChangedDelegate.Broadcast(Data.NewValue, Data.OldValue);
 	if(Data.NewValue <= 0)
 	{
 		OnKilled();
 		NativeOnKilled();
 	}
+}
+
+void AGASProjectCharacter::MaxHealthChanged(const FOnAttributeChangeData& Data)
+{
+	OnMaxHealthChangedDelegate.Broadcast(Data.NewValue, Data.OldValue);
 }
 
 void AGASProjectCharacter::MoveSpeedChanged(const FOnAttributeChangeData& Data)
@@ -74,6 +79,7 @@ void AGASProjectCharacter::BeginPlay()
 	if (AbilitySystemComponent)
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetHealthAttribute()).AddUObject(this, &AGASProjectCharacter::HealthChanged);
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &AGASProjectCharacter::MaxHealthChanged);
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BaseAttributeSet->GetMoveSpeedAttribute()).AddUObject(this, &AGASProjectCharacter::MoveSpeedChanged);
 
 		for (auto Ability : StartupAbilities)
@@ -84,20 +90,23 @@ void AGASProjectCharacter::BeginPlay()
 				AbilitySystemComponent->InitAbilityActorInfo(this, this);
 			}
 		}
-
-		if (StatInitializer) {
-			FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
-			EffectContext.AddSourceObject(this);
-
-			FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(StatInitializer, 1.0f, EffectContext);
-			if (NewHandle.IsValid())
-			{
-				FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent);
-			}
-		}
 	}
 
-	
+	GetWorldTimerManager().SetTimerForNextTick(this, &AGASProjectCharacter::InitializeAttributes);
 
 
+}
+
+void AGASProjectCharacter::InitializeAttributes()
+{
+	if (StatInitializer && AbilitySystemComponent) {
+		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+		EffectContext.AddSourceObject(this);
+
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(StatInitializer, 1.0f, EffectContext);
+		if (NewHandle.IsValid())
+		{
+			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent);
+		}
+	}
 }

@@ -9,6 +9,8 @@
 #include "GAS/AGAttributeSet.h"
 #include "GASProjectCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChangedDelegate, float, NewValue, float, OldValue);
+
 UENUM(BlueprintType)
 enum ECharacterRoleType
 {
@@ -44,11 +46,28 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = AbilitySystem)
 	TSubclassOf<UGameplayEffect> StatInitializer;
 
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedDelegate OnHealthChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedDelegate OnMaxHealthChangedDelegate;
+
+	/*UPROPERTY(BlueprintAssignable)
+	FAttributeChangedDelegate OnMoveSpeedChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedDelegate OnHealthChangedDelegate;*/
+
+
 protected:
 
 	virtual void BeginPlay() override;
 
+	void InitializeAttributes();
+
 	virtual void HealthChanged(const FOnAttributeChangeData& Data);
+
+	virtual void MaxHealthChanged(const FOnAttributeChangeData& Data);
 
 	virtual void MoveSpeedChanged(const FOnAttributeChangeData& Data);
 

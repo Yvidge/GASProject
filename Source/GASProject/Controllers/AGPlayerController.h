@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "AGPlayerController.generated.h"
 
+class UUWMainHUD;
 /**
  * 
  */
@@ -13,5 +14,15 @@ UCLASS()
 class GASPROJECT_API AAGPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+protected:
+
+	UPROPERTY()
+	UUWMainHUD* HUDWidget;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUWMainHUD> HUDWidgetClass;
+
+	virtual void BeginPlay() override;
+
 };

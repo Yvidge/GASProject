@@ -2,4 +2,13 @@
 
 
 #include "Controllers/AGPlayerController.h"
+#include  "UI/UWMainHUD.h"
 
+void AAGPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	HUDWidget = CreateWidget<UUWMainHUD>(this, HUDWidgetClass);
+	HUDWidget->AddToViewport();
+
+}
