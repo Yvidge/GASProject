@@ -17,7 +17,7 @@ class GASPROJECT_API AAGPlayerController : public APlayerController
 
 protected:
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	UUWMainHUD* HUDWidget;
 
 	UPROPERTY(EditDefaultsOnly)

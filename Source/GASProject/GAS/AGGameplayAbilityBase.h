@@ -25,6 +25,15 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Cooldown")
 	FGameplayTagContainer CooldownTags;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	UTexture2D* AbilityIcon;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	FText AbilityName;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	FText AbilityDescription;
+
 	virtual const FGameplayTagContainer* GetCooldownTags() const override;
 
 	virtual void ApplyCooldown(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) const override;
