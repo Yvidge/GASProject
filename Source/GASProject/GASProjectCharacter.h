@@ -30,7 +30,7 @@ class AGASProjectCharacter : public ACharacter, public IAbilitySystemInterface
 	
 public:
 	AGASProjectCharacter(const class FObjectInitializer& ObjectInitializer);
-	//AGASProjectCharacter();
+	
 	UPROPERTY(BlueprintReadOnly, Category = AbilitySystem)
 	UAbilitySystemComponent* AbilitySystemComponent;
 
@@ -52,11 +52,14 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedDelegate OnMaxHealthChangedDelegate;
 
-	/*UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedDelegate OnMoveSpeedChangedDelegate;
 
 	UPROPERTY(BlueprintAssignable)
-	FAttributeChangedDelegate OnHealthChangedDelegate;*/
+	FAttributeChangedDelegate OnDamageResistanceChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedDelegate OnIntelligenceChangedDelegate;
 
 
 protected:
@@ -71,6 +74,10 @@ protected:
 
 	virtual void MoveSpeedChanged(const FOnAttributeChangeData& Data);
 
+	virtual void IntelligenceChanged(const FOnAttributeChangeData& Data);
+
+	virtual void DamageResistChanged(const FOnAttributeChangeData& Data);
+
 public:
 
 	UFUNCTION(BlueprintCallable, Category = AbilitySystem)
@@ -81,6 +88,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = AbilitySystem)
 	float GetMoveSpeed() const;
+
+	UFUNCTION(BlueprintCallable, Category = AbilitySystem)
+	float GetIntelligence() const;
+
+	UFUNCTION(BlueprintCallable, Category = AbilitySystem)
+	float GetDamageResistance() const;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnHealthChanged(float OldValue, float NewValue);

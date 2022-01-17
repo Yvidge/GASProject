@@ -49,6 +49,17 @@ void AGASProjectCharacter::MaxHealthChanged(const FOnAttributeChangeData& Data)
 void AGASProjectCharacter::MoveSpeedChanged(const FOnAttributeChangeData& Data)
 {
 	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = Data.NewValue;
+	OnMoveSpeedChangedDelegate.Broadcast(Data.NewValue, Data.OldValue);
+}
+
+void AGASProjectCharacter::IntelligenceChanged(const FOnAttributeChangeData& Data)
+{
+	OnIntelligenceChangedDelegate.Broadcast(Data.NewValue, Data.OldValue);
+}
+
+void AGASProjectCharacter::DamageResistChanged(const FOnAttributeChangeData& Data)
+{
+	OnDamageResistanceChangedDelegate.Broadcast(Data.NewValue, Data.OldValue);
 }
 
 float AGASProjectCharacter::GetHealth() const
@@ -64,6 +75,16 @@ float AGASProjectCharacter::GetMaxHealth() const
 float AGASProjectCharacter::GetMoveSpeed() const
 {
 	return BaseAttributeSet->GetMoveSpeed();
+}
+
+float AGASProjectCharacter::GetIntelligence() const
+{
+	return BaseAttributeSet->GetIntelligence();
+}
+
+float AGASProjectCharacter::GetDamageResistance() const
+{
+	return  BaseAttributeSet->GetDamageResistance();
 }
 
 void AGASProjectCharacter::NativeOnKilled()
