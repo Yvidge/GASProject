@@ -34,3 +34,15 @@ void AAGPlayerController::CloseAbilityBook()
 		AbilityBookWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
+
+void AAGPlayerController::UpdateAbilityBinding(const TEnumAsByte<EGDAbilityInputID> InputBind,
+	const TSubclassOf<UAGGameplayAbilityBase> AbilityBind)
+{
+	if(AbilityBind)
+	{
+		TArray<EGDAbilityInputID> Keys;
+		AbilityInputBindings.GetKeys(Keys);
+		AbilityInputBindings.Add(Keys[Keys.Find(InputBind)], AbilityBind);
+
+	}
+}

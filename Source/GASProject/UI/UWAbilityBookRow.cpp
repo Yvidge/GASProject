@@ -4,6 +4,8 @@
 #include "UI/UWAbilityBookRow.h"
 
 #include "UWAbilityBookSlot.h"
+#include "Controllers/AGPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 void UUWAbilityBookRow::GeneratePossibleAbilities()
 {
@@ -26,6 +28,11 @@ void UUWAbilityBookRow::SetAbility(const TSubclassOf<UAGGameplayAbilityBase> Abi
 	if(AbilityClass)
 	{
 		SelectedAbilityIcon->SetBrushFromTexture(AbilityClass.GetDefaultObject()->AbilityIcon);
+		AAGPlayerController* PlayerController = Cast<AAGPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+		if(PlayerController)
+		{
+			PlayerController->UpdateAbilityBinding(InputBind, AbilityClass);
+		}
 	}
 }
 

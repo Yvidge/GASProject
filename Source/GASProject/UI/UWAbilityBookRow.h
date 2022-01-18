@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Characters/AGPlayerCharacter.h"
 #include "Components/HorizontalBox.h"
 #include "Components/Image.h"
 #include "GAS/AGGameplayAbilityBase.h"
@@ -24,6 +25,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (BindWidget = "SelectedAbilityIcon"))
 	UImage* SelectedAbilityIcon;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "InputBinding")
+	TEnumAsByte<EGDAbilityInputID> InputBind;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "InputBinding")
+	TSubclassOf<UAGGameplayAbilityBase> InputAbilityClass;
 
 	UFUNCTION(BlueprintCallable)
 	void GeneratePossibleAbilities();

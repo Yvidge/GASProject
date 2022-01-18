@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Characters/AGPlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
+#include "GAS/AGGameplayAbilityBase.h"
 #include "UI/UWAbilityBook.h"
 #include "AGPlayerController.generated.h"
 
@@ -30,6 +32,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UUWAbilityBook> AbilityBookWidgetClass;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TMap<EGDAbilityInputID, TSubclassOf<UAGGameplayAbilityBase>> AbilityInputBindings;
+
 	virtual void BeginPlay() override;
 
 public:
@@ -39,5 +44,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CloseAbilityBook();
+
+	UFUNCTION()
+	void UpdateAbilityBinding(const TEnumAsByte<EGDAbilityInputID> InputBind, const TSubclassOf<UAGGameplayAbilityBase> AbilityBind);
 
 };
