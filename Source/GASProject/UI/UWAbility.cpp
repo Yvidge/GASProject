@@ -5,5 +5,5 @@
 
 void UUWAbility::InitializeFromAbilityClass(const TSubclassOf<UAGGameplayAbilityBase> Class)
 {
-	AbilityIcon->SetBrushFromTexture(AbilityClass.GetDefaultObject()->AbilityIcon);
+	if(Class) AbilityIcon->SetBrushFromTexture(AbilityClass.GetDefaultObject()->AbilityIcon);
 }

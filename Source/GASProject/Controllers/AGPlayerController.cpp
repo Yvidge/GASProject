@@ -12,3 +12,25 @@ void AAGPlayerController::BeginPlay()
 	HUDWidget->AddToViewport();
 
 }
+
+void AAGPlayerController::OpenAbilityBook()
+{
+	if(AbilityBookWidget)
+	{
+		AbilityBookWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		AbilityBookWidget = CreateWidget<UUWAbilityBook>(this, AbilityBookWidgetClass);
+		AbilityBookWidget->AddToViewport(2);
+	}
+
+}
+
+void AAGPlayerController::CloseAbilityBook()
+{
+	if(AbilityBookWidget)
+	{
+		AbilityBookWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "UI/UWAbilityBook.h"
 #include "AGPlayerController.generated.h"
 
 class UUWMainHUD;
@@ -20,9 +21,23 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	UUWMainHUD* HUDWidget;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadOnly)
+	UUWAbilityBook* AbilityBookWidget;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UUWMainHUD> HUDWidgetClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UUWAbilityBook> AbilityBookWidgetClass;
+
 	virtual void BeginPlay() override;
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void OpenAbilityBook();
+
+	UFUNCTION(BlueprintCallable)
+	void CloseAbilityBook();
 
 };
