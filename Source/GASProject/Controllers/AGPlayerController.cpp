@@ -32,6 +32,8 @@ void AAGPlayerController::CloseAbilityBook()
 	if(AbilityBookWidget)
 	{
 		AbilityBookWidget->SetVisibility(ESlateVisibility::Collapsed);
+		AbilityBookWidget->Destruct();
+		AbilityBookWidget = nullptr;
 	}
 }
 
