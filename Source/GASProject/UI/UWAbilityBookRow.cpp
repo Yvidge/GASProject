@@ -9,6 +9,14 @@
 
 void UUWAbilityBookRow::GeneratePossibleAbilities()
 {
+	AGASProjectCharacter* PlayerCharacter = Cast<AGASProjectCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+	for (FGameplayAbilitySpec ActivatableAbility : PlayerCharacter->GetAbilitySystemComponent()->GetActivatableAbilities())
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, ActivatableAbility.GetDebugString());
+		UUWAbilityBookSlot* CreatedSlot = CreateWidget<UUWAbilityBookSlot>(this, AbilitySlotClass);
+		CreatedSlot->AbilityClass = ActivatableAbility.Ability->GetClass();
+		PossibleAbilitiesPanel->AddChild(CreatedSlot);
+	}
 }
 
 void UUWAbilityBookRow::InitializeChildrenSlots()
@@ -39,5 +47,6 @@ void UUWAbilityBookRow::SetAbility(const TSubclassOf<UAGGameplayAbilityBase> Abi
 void UUWAbilityBookRow::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
+	GeneratePossibleAbilities();
 	InitializeChildrenSlots();
 }

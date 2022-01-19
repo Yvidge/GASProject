@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Characters/AGPlayerCharacter.h"
 #include "Components/Image.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
@@ -34,6 +35,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(ExposeOnSpawn=true))
 	TSubclassOf<UAGGameplayAbilityBase> AbilityClass;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (ExposeOnSpawn = true))
+	TEnumAsByte<EGDAbilityInputID> AbilityBind;
 
 	UFUNCTION(BlueprintCallable)
 	void InitializeFromAbilityClass(const TSubclassOf<UAGGameplayAbilityBase> Class);

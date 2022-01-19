@@ -4,28 +4,46 @@
 #include "UI/UWAbilityPanel.h"
 
 #include "Components/HorizontalBox.h"
+#include "Controllers/AGPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
-void UUWAbilityPanel::UpdateAbilityCooldown(const TSubclassOf<UAGGameplayAbilityBase> AbilityClass)
+void UUWAbilityPanel::UpdateAbilityCooldown(const TEnumAsByte<EGDAbilityInputID> Binding,
+	const TSubclassOf<UAGGameplayAbilityBase> Class)
 {
-	for (TTuple<UUWAbility*, UClass*> Pair : AbilitiesMap)
+	for (TTuple<UUWAbility*, TEnumAsByte<EGDAbilityInputID>> Pair : AbilitiesMap)
 	{
-		if(Pair.Value == AbilityClass)
+		if(Pair.Value == Binding)
 		{
-			Pair.Key->StartUpdatingCooldown(AbilityClass.GetDefaultObject()->CooldownDuration.GetValue());
+			Pair.Key->StartUpdatingCooldown(Class.GetDefaultObject()->CooldownDuration.GetValue());
 		}
 	}
 
 }
 
+void UUWAbilityPanel::UpdateAbilitySlotBinding(const TEnumAsByte<EGDAbilityInputID> Binding,
+	const TSubclassOf<UAGGameplayAbilityBase> Class)
+{
+	for (TTuple<UUWAbility*, TEnumAsByte<EGDAbilityInputID>> Pair : AbilitiesMap)
+	{
+		if(Pair.Value == Binding)
+		{
+			Pair.Key->AbilityClass = Class;
+			Pair.Key->InitializeFromAbilityClass(Class);
+		}
+	}
+}
+
 void UUWAbilityPanel::NativeOnInitialized()
 {
 	InitializeAbilitiesMap();
-}
 
-float UUWAbilityPanel::GetAbilityCooldown(const TSubclassOf<UAGGameplayAbilityBase> AbilityClass)
-{
-	//AbilitiesMap.FindKey(AbilityClass);
-	return 0;
+	AAGPlayerController* PlayerController = Cast<AAGPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	if(PlayerController)
+	{
+		PlayerController->OnAbilityBindingChanged.AddDynamic(this, &UUWAbilityPanel::UpdateAbilitySlotBinding);
+		PlayerController->OnAbilityBindingUsed.AddDynamic(this, &UUWAbilityPanel::UpdateAbilityCooldown);
+	}
+
 }
 
 void UUWAbilityPanel::InitializeAbilitiesMap()
@@ -36,7 +54,7 @@ void UUWAbilityPanel::InitializeAbilitiesMap()
 		UUWAbility* AbilityWidget = Cast<UUWAbility>(Widget);
 		if(AbilityWidget)
 		{
-			AbilitiesMap.Add(AbilityWidget, AbilityWidget->AbilityClass);
+			AbilitiesMap.Add(AbilityWidget, AbilityWidget->AbilityBind);
 		}
 	}
 }

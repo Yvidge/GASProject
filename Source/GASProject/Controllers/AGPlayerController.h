@@ -13,6 +13,10 @@ class UUWMainHUD;
 /**
  * 
  */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityBindingChaged, TEnumAsByte<EGDAbilityInputID>, InputBinding, TSubclassOf<UAGGameplayAbilityBase>, NewAbility);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityBindingUsed, TEnumAsByte<EGDAbilityInputID>, InputBinding, TSubclassOf<UAGGameplayAbilityBase>, NewAbility);
+
 UCLASS()
 class GASPROJECT_API AAGPlayerController : public APlayerController
 {
@@ -39,6 +43,12 @@ protected:
 
 public:
 
+	UPROPERTY(BlueprintAssignable)
+	FAbilityBindingChaged OnAbilityBindingChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FAbilityBindingUsed OnAbilityBindingUsed;
+
 	UFUNCTION(BlueprintCallable)
 	void OpenAbilityBook();
 
@@ -47,5 +57,8 @@ public:
 
 	UFUNCTION()
 	void UpdateAbilityBinding(const TEnumAsByte<EGDAbilityInputID> InputBind, const TSubclassOf<UAGGameplayAbilityBase> AbilityBind);
+
+	UFUNCTION(BlueprintCallable)
+	void UseAbilityByInputBinding(const TEnumAsByte<EGDAbilityInputID> InputBind);
 
 };

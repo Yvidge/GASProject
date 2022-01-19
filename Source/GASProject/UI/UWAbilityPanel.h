@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UWAbility.h"
 #include "Blueprint/UserWidget.h"
+#include "Characters/AGPlayerCharacter.h"
 #include "GAS/AGGameplayAbilityBase.h"
 #include "UWAbilityPanel.generated.h"
 
@@ -22,20 +23,20 @@ public:
 	class UHorizontalBox* MainPanel;
 
 	//UPROPERTY(BlueprintReadWrite)
-	TMap<UUWAbility*, UClass*> AbilitiesMap;
+	TMap<UUWAbility*, TEnumAsByte<EGDAbilityInputID>> AbilitiesMap;
 
 
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateAbilityCooldown(const TSubclassOf<UAGGameplayAbilityBase> AbilityClass);
+	void UpdateAbilityCooldown(const TEnumAsByte<EGDAbilityInputID> Binding, const TSubclassOf<UAGGameplayAbilityBase> Class);
 
 protected:
 
-	virtual void NativeOnInitialized() override;
+	UFUNCTION()
+	void UpdateAbilitySlotBinding(TEnumAsByte<EGDAbilityInputID> Binding, TSubclassOf<UAGGameplayAbilityBase> Class);
 
-	UFUNCTION(BlueprintCallable)
-	float GetAbilityCooldown(const TSubclassOf<UAGGameplayAbilityBase> AbilityClass);
+	virtual void NativeOnInitialized() override;
 
 	void InitializeAbilitiesMap();
 

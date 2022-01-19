@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UWAbilityBookSlot.h"
 #include "Blueprint/UserWidget.h"
 #include "Characters/AGPlayerCharacter.h"
 #include "Components/HorizontalBox.h"
@@ -19,6 +20,9 @@ class GASPROJECT_API UUWAbilityBookRow : public UUserWidget
 	GENERATED_BODY()
 
 public:
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUWAbilityBookSlot> AbilitySlotClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (BindWidget = "PossibleAbilitiesPanel"))
 	UHorizontalBox* PossibleAbilitiesPanel;

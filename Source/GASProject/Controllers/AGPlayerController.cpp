@@ -43,6 +43,25 @@ void AAGPlayerController::UpdateAbilityBinding(const TEnumAsByte<EGDAbilityInput
 		TArray<EGDAbilityInputID> Keys;
 		AbilityInputBindings.GetKeys(Keys);
 		AbilityInputBindings.Add(Keys[Keys.Find(InputBind)], AbilityBind);
+		OnAbilityBindingChanged.Broadcast(InputBind, AbilityBind);
 
 	}
+}
+
+void AAGPlayerController::UseAbilityByInputBinding(const TEnumAsByte<EGDAbilityInputID> InputBind)
+{
+
+	for (TTuple<EGDAbilityInputID, TSubclassOf<UAGGameplayAbilityBase>> Binding : AbilityInputBindings)
+	{
+		if(Binding.Key == InputBind)
+		{
+			auto PlayerCharacter = Cast<AGASProjectCharacter>(GetPawn());
+			if(PlayerCharacter->GetAbilitySystemComponent()->TryActivateAbilityByClass(Binding.Value))
+			{
+				OnAbilityBindingUsed.Broadcast(Binding.Key, Binding.Value);
+			}
+			
+		}
+	}
+
 }
