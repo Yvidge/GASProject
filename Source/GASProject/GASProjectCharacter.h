@@ -10,6 +10,7 @@
 #include "GASProjectCharacter.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChangedDelegate, float, NewValue, float, OldValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDiedDelegate, ACharacter*, Character);
 
 UENUM(BlueprintType)
 enum ECharacterRoleType
@@ -61,6 +62,8 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedDelegate OnIntelligenceChangedDelegate;
 
+	UPROPERTY(BlueprintAssignable)
+	FCharacterDiedDelegate OnDiedDelegate;
 
 protected:
 

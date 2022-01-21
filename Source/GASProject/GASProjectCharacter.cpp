@@ -89,6 +89,7 @@ float AGASProjectCharacter::GetDamageResistance() const
 
 void AGASProjectCharacter::NativeOnKilled()
 {
+	OnDiedDelegate.Broadcast(this);
 	//Destroy();
 }
 
