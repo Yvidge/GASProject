@@ -27,12 +27,19 @@ void AEnemySpawner::SpawnGroup()
 		{
 			for (int i = 0; i < EnemyType.Num; ++i)
 			{
+				FRotator Rot(0);
 				FVector Loc;
 				FNavLocation ResultLoc;
 				UNavigationSystemV1* NavSys = UNavigationSystemV1::GetCurrent(GetWorld());
-				NavSys->GetRandomReachablePointInRadius(GetActorLocation(), SpawnRadius, ResultLoc);
-				FRotator Rot(0);
+				//NavSys->GetRandomReachablePointInRadius(GetActorLocation(), SpawnRadius, ResultLoc);
+				//Loc[0] = FMath::RandRange(GetActorLocation())
+				Loc = FMath::VRand();
+				Loc[2] = 0;
+				Loc *= SpawnRadius;
+				Loc += GetActorLocation();
 				FActorSpawnParameters Parameters;
+				Parameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+				//Loc[2] += 500;
 				auto SpawnedEnemy = GetWorld()->SpawnActor<AAGEnemyCharacter>(EnemyType.EnemyClass, Loc, Rot, Parameters);
 				SpawnedEnemy->OnDiedDelegate.AddDynamic(this, &AEnemySpawner::EnemyDied);
 				AliveEnemiesNum++;
