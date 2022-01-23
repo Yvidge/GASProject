@@ -67,3 +67,8 @@ void AAGPlayerController::UseAbilityByInputBinding(const TEnumAsByte<EGDAbilityI
 	}
 
 }
+
+TSubclassOf<UAGGameplayAbilityBase> AAGPlayerController::GetAbilityByBinding(const TEnumAsByte<EGDAbilityInputID> InputBind)
+{
+	return *AbilityInputBindings.Find(InputBind);
+}

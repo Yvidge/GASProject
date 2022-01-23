@@ -33,9 +33,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "InputBinding")
 	TEnumAsByte<EGDAbilityInputID> InputBind;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "InputBinding")
-	TSubclassOf<UAGGameplayAbilityBase> InputAbilityClass;
-
 	UFUNCTION(BlueprintCallable)
 	void GeneratePossibleAbilities();
 

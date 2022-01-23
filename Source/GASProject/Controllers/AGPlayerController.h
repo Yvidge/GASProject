@@ -61,4 +61,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UseAbilityByInputBinding(const TEnumAsByte<EGDAbilityInputID> InputBind);
 
+	UFUNCTION(BlueprintCallable)
+	TSubclassOf<UAGGameplayAbilityBase> GetAbilityByBinding(const TEnumAsByte<EGDAbilityInputID> InputBind);
+
 };
