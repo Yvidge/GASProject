@@ -31,6 +31,9 @@ class AGASProjectCharacter : public ACharacter, public IAbilitySystemInterface
 	
 public:
 	AGASProjectCharacter(const class FObjectInitializer& ObjectInitializer);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USceneComponent* ProjectileSpawnPoint;
 	
 	UPROPERTY(BlueprintReadOnly, Category = AbilitySystem)
 	UAbilitySystemComponent* AbilitySystemComponent;

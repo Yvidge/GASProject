@@ -28,6 +28,9 @@ AGASProjectCharacter::AGASProjectCharacter(const class FObjectInitializer& Objec
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 
 	BaseAttributeSet = CreateDefaultSubobject<UAGAttributeSet>(TEXT("AttributeSet"));
+
+	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSpawnPoint"));
+	ProjectileSpawnPoint->SetupAttachment(RootComponent);
 }
 
 void AGASProjectCharacter::HealthChanged(const FOnAttributeChangeData& Data)
