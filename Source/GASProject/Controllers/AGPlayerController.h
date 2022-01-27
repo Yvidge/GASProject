@@ -55,6 +55,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CloseAbilityBook();
 
+	UFUNCTION(BlueprintCallable)
+	void InitializeUnlockedAbilities();
+
 	UFUNCTION()
 	void UpdateAbilityBinding(const TEnumAsByte<EGDAbilityInputID> InputBind, const TSubclassOf<UAGGameplayAbilityBase> AbilityBind);
 

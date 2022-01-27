@@ -2,6 +2,9 @@
 
 
 #include "Controllers/AGPlayerController.h"
+
+#include "AGGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 #include  "UI/UWMainHUD.h"
 
 void AAGPlayerController::BeginPlay()
@@ -37,8 +40,23 @@ void AAGPlayerController::CloseAbilityBook()
 	}
 }
 
+void AAGPlayerController::InitializeUnlockedAbilities()
+{
+
+	UAGGameInstance* GameInstance = Cast<UAGGameInstance>(UGameplayStatics::GetGameInstance(this));
+	if (GameInstance)
+	{
+		for (TSubclassOf<UAGGameplayAbilityBase> UnlockedAbility : GameInstance->UnlockedAbilities)
+		{
+			auto PlayerCharacter = Cast<AGASProjectCharacter>(GetPawn());
+			PlayerCharacter->AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(UnlockedAbility));
+		}
+	}
+
+}
+
 void AAGPlayerController::UpdateAbilityBinding(const TEnumAsByte<EGDAbilityInputID> InputBind,
-	const TSubclassOf<UAGGameplayAbilityBase> AbilityBind)
+                                               const TSubclassOf<UAGGameplayAbilityBase> AbilityBind)
 {
 	if(AbilityBind)
 	{

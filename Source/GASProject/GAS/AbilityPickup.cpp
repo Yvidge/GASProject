@@ -3,7 +3,9 @@
 
 #include "GAS/AbilityPickup.h"
 
+#include "AGGameInstance.h"
 #include "Characters/AGPlayerCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAbilityPickup::AAbilityPickup()
@@ -30,7 +32,16 @@ void AAbilityPickup::HandleInteract(
 	AAGPlayerCharacter* PlayerCharacter = Cast<AAGPlayerCharacter>(OtherActor);
 	if(PlayerCharacter)
 	{
-		PlayerCharacter->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(AbilityClass));
+		if(!PlayerCharacter->GetAbilitySystemComponent()->FindAbilitySpecFromClass(AbilityClass))
+		{
+			PlayerCharacter->GetAbilitySystemComponent()->GiveAbility(FGameplayAbilitySpec(AbilityClass));
+			UAGGameInstance* GameInstance = Cast<UAGGameInstance>(UGameplayStatics::GetGameInstance(this));
+			if(GameInstance)
+			{
+				GameInstance->UnlockedAbilities.AddUnique(AbilityClass);
+			}
+		}
+		
 		Destroy();
 	}
 
