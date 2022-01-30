@@ -11,6 +11,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeChangedDelegate, float, NewValue, float, OldValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDiedDelegate, ACharacter*, Character);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDamageTaken, float, DamageAmount);
 
 UENUM(BlueprintType)
 enum ECharacterRoleType
@@ -67,6 +68,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FCharacterDiedDelegate OnDiedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FDamageTaken OnDamageTaken;
 
 protected:
 

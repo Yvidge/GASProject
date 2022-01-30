@@ -37,6 +37,9 @@ public:
 
 protected:
 
+	float CachedMaxHealth = 0;
+	float CachedHealth = 0;
+
 	virtual void NativeConstruct() override;
 
 	UFUNCTION()
@@ -57,6 +60,7 @@ protected:
 	UFUNCTION()
 	void UpdateIntelligence(float NewValue, float OldValue);
 
-	float CachedMaxHealth = 0;
-	float CachedHealth = 0;
+	UFUNCTION(BlueprintImplementableEvent)
+	void DamageResponse(float DamageAmount);
+	
 };

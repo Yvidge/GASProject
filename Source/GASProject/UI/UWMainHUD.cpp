@@ -20,6 +20,7 @@ void UUWMainHUD::NativeConstruct()
 		PlayerCharacter->OnMoveSpeedChangedDelegate.AddDynamic(this, &UUWMainHUD::UpdateMoveSpeed);
 		PlayerCharacter->OnIntelligenceChangedDelegate.AddDynamic(this, &UUWMainHUD::UpdateIntelligence);
 		PlayerCharacter->OnDamageResistanceChangedDelegate.AddDynamic(this, &UUWMainHUD::UpdateDamageResist);
+		PlayerCharacter->OnDamageTaken.AddDynamic(this, &UUWMainHUD::DamageResponse);
 	}
 
 }

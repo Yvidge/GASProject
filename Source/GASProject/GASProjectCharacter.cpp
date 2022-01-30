@@ -37,6 +37,12 @@ void AGASProjectCharacter::HealthChanged(const FOnAttributeChangeData& Data)
 {
 	OnHealthChanged(Data.OldValue, Data.NewValue);
 	OnHealthChangedDelegate.Broadcast(Data.NewValue, Data.OldValue);
+
+	if(Data.OldValue > Data.NewValue)
+	{
+		OnDamageTaken.Broadcast(Data.OldValue - Data.NewValue);
+	}
+
 	if(Data.NewValue <= 0)
 	{
 		OnKilled();
