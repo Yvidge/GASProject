@@ -48,8 +48,8 @@ void AAGPlayerController::InitializeUnlockedAbilities()
 	{
 		for (TSubclassOf<UAGGameplayAbilityBase> UnlockedAbility : GameInstance->UnlockedAbilities)
 		{
-			auto PlayerCharacter = Cast<AGASProjectCharacter>(GetPawn());
-			PlayerCharacter->AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(UnlockedAbility));
+			AGASProjectCharacter* PlayerCharacter = Cast<AGASProjectCharacter>(GetPawn());
+			if(PlayerCharacter && UnlockedAbility.Get()->IsValidLowLevel()) PlayerCharacter->AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(UnlockedAbility));
 		}
 	}
 

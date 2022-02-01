@@ -17,6 +17,7 @@ class GASPROJECT_API UAGGameInstance : public UGameInstance
 
 public:
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TArray<TSubclassOf<UAGGameplayAbilityBase>> UnlockedAbilities;
 
 };
