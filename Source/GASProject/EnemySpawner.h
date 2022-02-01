@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "EnemySpawner.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSpawnPointCompleted);
 
 USTRUCT(BlueprintType)
 struct FEnemyTypeSpawnRules
@@ -49,7 +50,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SpawnRules)
 	float SpawnRadius = 3000.0f;
 
-	
+	UPROPERTY(BlueprintAssignable)
+	FSpawnPointCompleted OnSpawnPointCompleted;
 
 protected:
 	
@@ -63,6 +65,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	int CurrentGroupIndex = 0;
+
+	UPROPERTY(EditAnywhere)
+	float HeightOffset = 100;
 
 	/*UPROPERTY(BlueprintReadOnly)
 	TArray<AAGEnemyCharacter*> Enemies;*/

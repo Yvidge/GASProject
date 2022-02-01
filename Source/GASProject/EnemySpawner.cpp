@@ -39,7 +39,7 @@ void AEnemySpawner::SpawnGroup()
 				Loc += GetActorLocation();
 				FActorSpawnParameters Parameters;
 				Parameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-				//Loc[2] += 500;
+				Loc[2] += HeightOffset;
 				auto SpawnedEnemy = GetWorld()->SpawnActor<AAGEnemyCharacter>(EnemyType.EnemyClass, Loc, Rot, Parameters);
 				SpawnedEnemy->OnDiedDelegate.AddDynamic(this, &AEnemySpawner::EnemyDied);
 				AliveEnemiesNum++;
@@ -52,6 +52,7 @@ void AEnemySpawner::SpawnGroup()
 		bSpawning = false;
 		CurrentGroupIndex = 0;
 		SpawningCompleted();
+		OnSpawnPointCompleted.Broadcast();
 	}
 }
 
