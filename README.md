@@ -1,5 +1,5 @@
 # GASProject
-Small technical demo, about using Gameplay Ability System in Unreal Engine. Made in low poly simplistic graphic. Demo have 3 levels including boss fight and overview map.
+Small technical demo, about using Gameplay Ability System in Unreal Engine. Made in low poly simplistic graphic. The demo has 3 levels including boss fight and overview map.
 
 Features:
 - Projectiles with ability to explode
